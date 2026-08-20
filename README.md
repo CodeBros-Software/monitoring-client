@@ -1,4 +1,4 @@
-# codebros/monitoring-client
+# codebros-nl/monitoring-client
 
 Ships Laravel application telemetry — requests, exceptions, slow queries,
 jobs, cache hit/miss, scheduled task runs, and outgoing HTTP calls — to the
@@ -17,7 +17,7 @@ HTTP instead of writing to a local database.
 ## Installation
 
 ```bash
-composer require codebros/monitoring-client
+composer require codebros-nl/monitoring-client
 ```
 
 Publish the config file:

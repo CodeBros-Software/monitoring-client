@@ -1,5 +1,5 @@
 {
-    "name": "codebros/monitoring-client",
+    "name": "codebros-nl/monitoring-client",
     "description": "Ships Laravel application telemetry (requests, exceptions, queries, jobs, cache, scheduled tasks, outgoing requests) to the CodeBros portal's monitoring ingest endpoint, reusing Laravel Pulse's recorders for data capture.",
     "type": "library",
     "license": "proprietary",
