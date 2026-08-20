@@ -2,6 +2,7 @@
 
 namespace CodeBros\MonitoringClient;
 
+use CodeBros\MonitoringClient\Ingest\NullStorage;
 use CodeBros\MonitoringClient\Ingest\RemoteIngestStorage;
 use CodeBros\MonitoringClient\Recorders\Exceptions;
 use CodeBros\MonitoringClient\Recorders\Jobs;
@@ -10,6 +11,7 @@ use CodeBros\MonitoringClient\Recorders\Requests;
 use CodeBros\MonitoringClient\Recorders\ScheduledTasks;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Pulse\Contracts\Ingest;
+use Laravel\Pulse\Contracts\Storage;
 use Laravel\Pulse\Recorders\CacheInteractions;
 use Laravel\Pulse\Recorders\SlowQueries;
 
@@ -47,9 +49,14 @@ class MonitoringClientServiceProvider extends ServiceProvider
     public function boot(): void
     {
         // Bound in boot() (after every provider's register() phase, including
-        // Pulse's own) so this reliably wins over Pulse's default Ingest
-        // binding regardless of provider load order.
+        // Pulse's own) so these reliably win over Pulse's default Ingest and
+        // Storage bindings regardless of provider load order. Storage must be
+        // replaced too: Pulse forwards unrecognised method calls on it (e.g.
+        // pulse:work's periodic trim()) straight to the container's Storage
+        // binding, which would otherwise fall through to Pulse's own
+        // DatabaseStorage and fail against tables this package never migrates.
         $this->app->bind(Ingest::class, RemoteIngestStorage::class);
+        $this->app->bind(Storage::class, NullStorage::class);
 
         $this->publishes([
             __DIR__.'/../config/monitoring-client.php' => config_path('monitoring-client.php'),

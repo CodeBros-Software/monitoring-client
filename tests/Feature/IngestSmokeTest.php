@@ -35,3 +35,13 @@ test('a handled request is buffered and flushed to the portal', function () {
             && ($data['requests'][0]['status'] ?? null) === 200;
     });
 });
+
+test('pulse:work style trim calls do not touch a local database', function () {
+    // Pulse forwards unrecognised method calls (like the trim() that
+    // pulse:work runs every 10 minutes) to the container's Storage
+    // binding. Without NullStorage this falls through to Pulse's own
+    // DatabaseStorage and fails against tables this package never
+    // migrates — this app's sqlite connection has no pulse_* tables
+    // either, so it reproduces the same failure a real client app hits.
+    Pulse::trim();
+})->throwsNoExceptions();
