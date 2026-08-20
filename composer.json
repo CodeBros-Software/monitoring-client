@@ -1,0 +1,44 @@
+{
+    "name": "codebros/monitoring-client",
+    "description": "Ships Laravel application telemetry (requests, exceptions, queries, jobs, cache, scheduled tasks, outgoing requests) to the CodeBros portal's monitoring ingest endpoint, reusing Laravel Pulse's recorders for data capture.",
+    "type": "library",
+    "license": "proprietary",
+    "require": {
+        "php": "^8.1",
+        "illuminate/support": "^11.0|^12.0|^13.0",
+        "laravel/pulse": "^1.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^9.0|^10.0",
+        "pestphp/pest": "^3.0|^4.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "CodeBros\\MonitoringClient\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "CodeBros\\MonitoringClient\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "CodeBros\\MonitoringClient\\MonitoringClientServiceProvider"
+            ]
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/pest"
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true,
+            "php-http/discovery": true
+        }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}
